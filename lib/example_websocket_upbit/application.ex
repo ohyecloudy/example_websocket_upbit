@@ -8,8 +8,7 @@ defmodule ExampleWebsocketUpbit.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: ExampleWebsocketUpbit.Worker.start_link(arg)
-      # {ExampleWebsocketUpbit.Worker, arg}
+      {ExampleWebsocketUpbit.Client, "wss://api.upbit.com/websocket/v1"}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
