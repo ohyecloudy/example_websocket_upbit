@@ -21,7 +21,9 @@ defmodule ExampleWebsocketUpbit.MixProject do
 
   defp deps do
     [
-      {:websockex, "~> 0.4.3"}
+      {:websockex, "~> 0.4.3"},
+      {:elixir_uuid, "~> 1.2"},
+      {:jason, "~> 1.2"}
     ]
   end
 end

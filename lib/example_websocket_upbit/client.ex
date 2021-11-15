@@ -6,6 +6,15 @@ defmodule ExampleWebsocketUpbit.Client do
     WebSockex.start_link(url, __MODULE__, :ok, name: __MODULE__)
   end
 
+  def request_tickers(tickers) do
+    [
+      %{ticket: UUID.uuid4()},
+      %{type: "ticker", codes: tickers}
+    ]
+    |> Jason.encode!()
+    |> send_message()
+  end
+
   def send_message(msg) do
     WebSockex.cast(__MODULE__, {:send, {:text, msg}})
   end
@@ -16,6 +25,7 @@ defmodule ExampleWebsocketUpbit.Client do
   end
 
   def handle_frame({type, msg}, state) do
+    msg = Jason.decode!(msg)
     Logger.debug("Received Message - Type: #{inspect(type)} -- Message: #{inspect(msg)}")
     {:ok, state}
   end
