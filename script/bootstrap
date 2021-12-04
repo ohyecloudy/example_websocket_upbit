@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# script/bootstrap: Resolve all dependencies that the application requires to
+#                   run.
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+if ! command -v elixir > /dev/null; then
+    echo "FAILED: cannot find elixir"
+    exit 1
+fi
+
+mix local.hex --force
+mix local.rebar --force
+mix deps.get
