@@ -10,7 +10,11 @@ defmodule ExampleWebsocketUpbit.Application do
     ExampleWebsocketUpbit.Telemetry.init()
 
     children = [
-      {ExampleWebsocketUpbit.Client, "wss://api.upbit.com/websocket/v1"}
+      {ExampleWebsocketUpbit.Client,
+       [
+         url: "wss://api.upbit.com/websocket/v1",
+         tickers: Application.get_env(:example_websocket_upbit, :tickers, [])
+       ]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

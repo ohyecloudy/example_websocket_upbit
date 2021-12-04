@@ -4,11 +4,20 @@ defmodule ExampleWebsocketUpbit.Client do
 
   @ping_interval_ms 30_000
 
-  defstruct [:ping_tick_timer]
+  defstruct [:ping_tick_timer, :tickers]
 
-  def start_link(url) do
-    WebSockex.start_link(url, __MODULE__, %__MODULE__{}, name: __MODULE__)
+  def start_link(args) do
+    url = Keyword.fetch!(args, :url)
+
+    state = %__MODULE__{
+      ping_tick_timer: nil,
+      tickers: Keyword.get(args, :tickers, [])
+    }
+
+    WebSockex.start_link(url, __MODULE__, state, name: __MODULE__)
   end
+
+  def request_tickers([] = _tickers), do: nil
 
   def request_tickers(tickers) do
     [
@@ -26,6 +35,7 @@ defmodule ExampleWebsocketUpbit.Client do
   def handle_connect(_conn, state) do
     Logger.notice("Connected!")
     :telemetry.execute([:connected], %{time: System.system_time()})
+    request_tickers(state.tickers)
 
     nil = state.ping_tick_timer
     {:ok, timer} = :timer.send_interval(@ping_interval_ms, self(), :tick)
