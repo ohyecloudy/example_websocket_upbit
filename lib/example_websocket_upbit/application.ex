@@ -7,6 +7,8 @@ defmodule ExampleWebsocketUpbit.Application do
 
   @impl true
   def start(_type, _args) do
+    ExampleWebsocketUpbit.Telemetry.init()
+
     children = [
       {ExampleWebsocketUpbit.Client, "wss://api.upbit.com/websocket/v1"}
     ]

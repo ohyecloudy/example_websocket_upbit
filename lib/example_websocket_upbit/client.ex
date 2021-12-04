@@ -25,6 +25,7 @@ defmodule ExampleWebsocketUpbit.Client do
 
   def handle_connect(_conn, state) do
     Logger.notice("Connected!")
+    :telemetry.execute([:connected], %{time: System.system_time()})
 
     nil = state.ping_tick_timer
     {:ok, timer} = :timer.send_interval(@ping_interval_ms, self(), :tick)
@@ -33,6 +34,7 @@ defmodule ExampleWebsocketUpbit.Client do
 
   def handle_disconnect(_conn, state) do
     Logger.notice("Disconnected!")
+    :telemetry.execute([:disconnected], %{time: System.system_time()})
 
     {:ok, :cancel} = :timer.cancel(state.ping_tick_timer)
     {:ok, put_in(state.ping_tick_timer, nil)}
@@ -43,9 +45,15 @@ defmodule ExampleWebsocketUpbit.Client do
     {:ok, state}
   end
 
-  def handle_frame({type, msg}, state) do
-    msg = Jason.decode!(msg)
-    Logger.debug("Received Message - Type: #{inspect(type)} -- Message: #{inspect(msg)}")
+  def handle_frame({_type, org_msg}, state) do
+    msg = Jason.decode!(org_msg)
+
+    :telemetry.execute([:frame, :received], %{
+      time: System.system_time(),
+      size: byte_size(org_msg),
+      ticker: msg["code"]
+    })
+
     {:ok, state}
   end
 

@@ -14,7 +14,7 @@ defmodule ExampleWebsocketUpbit.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :prometheus_ex],
       mod: {ExampleWebsocketUpbit.Application, []}
     ]
   end
@@ -23,7 +23,10 @@ defmodule ExampleWebsocketUpbit.MixProject do
     [
       {:websockex, "~> 0.4.3"},
       {:elixir_uuid, "~> 1.2"},
-      {:jason, "~> 1.2"}
+      {:prometheus_ex, "~> 3.0"},
+      {:prometheus_httpd, "~> 2.1"},
+      {:jason, "~> 1.2"},
+      {:telemetry, "~> 1.0"}
     ]
   end
 end
