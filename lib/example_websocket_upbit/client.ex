@@ -41,7 +41,6 @@ defmodule ExampleWebsocketUpbit.Client do
   end
 
   def handle_pong(:pong, state) do
-    Logger.debug("pong received")
     {:ok, state}
   end
 
@@ -68,7 +67,6 @@ defmodule ExampleWebsocketUpbit.Client do
   end
 
   def handle_info(:tick, state) do
-    Logger.debug("Sending ping frame")
     {:reply, :ping, state}
   end
 end
