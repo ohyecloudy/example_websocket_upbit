@@ -33,7 +33,7 @@ WebSocket을 사용해 [[https://docs.upbit.com/docs/upbit-quotation-websocket][
 
 ** :memo: 블로그 포스트
 
-   - TODO
+   - [[http://ohyecloudy.com/pnotes/archives/elixirlang-websocket-upbit-market-price/][#elixirlang 웹소켓을 사용한 실시간 Upbit 시세 받기]]
 
 ** :balance_scale: 라이선스 (License)
 
